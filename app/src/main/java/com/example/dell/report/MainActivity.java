@@ -22,14 +22,14 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     public String output;
-    public ArrayList<String> field;
+    public static ArrayList<String> cols=new ArrayList<>();
     public EditText t1;
     private Button btnSpeak;
-    private final int REQ_CODE_SPEECH_INPUT = 100;
+    public static final int REQ_CODE_SPEECH_INPUT = 100;
 public int index=0;
 
-    public FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-    private DatabaseReference root=firebaseDatabase.getReference();
+    public static FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+    public static DatabaseReference root=firebaseDatabase.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public int index=0;
             @Override
             public void onClick(View view) {
 
-                root.child(""+index).setValue(t1.getText().toString());
+                root.child((index-1)+"").setValue(t1.getText().toString());
                 t1.setText("");
 
             }
@@ -96,7 +96,7 @@ public int index=0;
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     t1.setText(result.get(0));
-                    field.add(result.get(0));
+                    cols.add(result.get(0));
                     index++;
                 }
                 break;

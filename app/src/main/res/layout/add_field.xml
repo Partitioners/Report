@@ -7,31 +7,22 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
-    <TextView
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="42dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="69dp"
-        android:id="@+id/name" />
 
-    <EditText
-        android:layout_width="wrap_content"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/text_input_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="56dp"
-        android:id="@+id/editText"
-        style="@style/Widget.AppCompat.EditText" />
+        >
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Field Name"
+            android:ems="10"
+            style="@style/Widget.AppCompat.EditText" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:text="Add items"
