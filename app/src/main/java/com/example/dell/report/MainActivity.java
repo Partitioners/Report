@@ -54,8 +54,10 @@ public int index=0;
             @Override
             public void onClick(View view) {
 
+                cols.add(t1.getText().toString());
                 root.child((index-1)+"").setValue(t1.getText().toString());
                 t1.setText("");
+
 
             }
         });
@@ -96,8 +98,7 @@ public int index=0;
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     t1.setText(result.get(0));
-                    cols.add(result.get(0));
-                    index++;
+
                 }
                 break;
             }

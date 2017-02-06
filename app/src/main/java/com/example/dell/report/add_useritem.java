@@ -7,9 +7,11 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -27,55 +29,39 @@ import static com.example.dell.report.MainActivity.root;
  */
 
 public class add_useritem extends AppCompatActivity {
-    public ArrayList<EditText> et;
-    public static ArrayList<String> users;
-    public EditText tv;
 
-    public Button spk,additem;
+    public static ArrayList<String> users;
+
+
+    public Button additem;
     public static ArrayList<ArrayList> rows;
     public FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     private DatabaseReference root=firebaseDatabase.getReference();
     int rootid;
+    private EditText e;
 
     public static int itemid=1;
-    int ind=0;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_item);
-LinearLayout.LayoutParams buttonlayout=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        buttonlayout.setMargins(5,5,5,5);
-        et=new ArrayList<>();
+        e=(EditText) findViewById(R.id.edit);
         users=new ArrayList<>();
         rows=new ArrayList<>();
-        LinearLayout ll = (LinearLayout)findViewById(R.id.activity_add_item);
-       spk=new Button(this);
+        WishlistCustomAdapter adapter=new WishlistCustomAdapter(this,cols);
+        listView = (ListView) findViewById(R.id.list);
+        additem=(Button) findViewById(R.id.add);
 
-        additem=new Button(this);
-        //spk.setId(R.id.speaks);
-        spk.setText("Speak");
-        additem.setText("Add to database");
-        ll.addView(additem);
-        ll.addView(spk);
+        listView.setAdapter(adapter);
 
-        for(int i=0;i<cols.size();i++){
-            tv=new EditText(this);
-            tv.setHint(cols.get(i));
-            tv.setHintTextColor(getResources().getColor(R.color.gray));
-            tv.setLayoutParams(buttonlayout);
-            et.add(tv);
-            ll.addView(et.get(i));}
 
-        spk.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                promptSpeechInput();
-            }
-        });
+
     additem.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if(users !=null){rows.add(users);}
             for(rootid=0;rootid<cols.size();rootid++) {
                 root.child(rootid+"").child(rootid +cols.size()*itemid+"").setValue(users.get(rootid +cols.size()*(itemid-1)));
 
@@ -86,7 +72,7 @@ LinearLayout.LayoutParams buttonlayout=new LinearLayout.LayoutParams(ViewGroup.L
 
     }
 
-    private void promptSpeechInput() {
+    public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -101,7 +87,7 @@ LinearLayout.LayoutParams buttonlayout=new LinearLayout.LayoutParams(ViewGroup.L
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
@@ -110,19 +96,17 @@ LinearLayout.LayoutParams buttonlayout=new LinearLayout.LayoutParams(ViewGroup.L
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    et.get(ind).setText(result.get(0));
-                    users.add(et.get(ind).getText().toString());
-                    ind++;
-                    if(ind==cols.size()) {
-                        rows.add(users);
-                    ind=0;}
-                    }
+                    e.setText(result.get(0).toCharArray().toString());
+
+
+
+
                 break;
             }
 
         }
     }
-}
+}}
 
 
 
