@@ -97,10 +97,6 @@ public class add_useritem extends AppCompatActivity {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     e.setText(result.get(0).toCharArray().toString());
-
-
-
-
                 break;
             }
 
