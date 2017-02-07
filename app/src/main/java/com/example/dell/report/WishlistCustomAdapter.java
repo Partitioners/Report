@@ -20,6 +20,7 @@ public class WishlistCustomAdapter extends ArrayAdapter<String> {
 
     ArrayList<String> gotList;
     add_useritem context;
+    EditText name;
 
     public WishlistCustomAdapter(add_useritem context, ArrayList<String> words) {
         super(context, 0, words);
@@ -40,7 +41,7 @@ public class WishlistCustomAdapter extends ArrayAdapter<String> {
                     R.layout.movie_list_row, parent, false);
         }
         String currentWord=gotList.get(position);
-        final EditText name = (EditText) listItemView.findViewById(R.id.edit);
+        name = (EditText) listItemView.findViewById(R.id.edit);
         name.setHint(currentWord);
         final ImageButton btn=(ImageButton)listItemView.findViewById(R.id.sound);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +58,10 @@ public class WishlistCustomAdapter extends ArrayAdapter<String> {
 
 
         return listItemView;
+    }
+    public void setEdittext(String s){
+        name.setText(s);
+
     }
 
 

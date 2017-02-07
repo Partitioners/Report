@@ -38,7 +38,7 @@ public class add_useritem extends AppCompatActivity {
     public FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     private DatabaseReference root=firebaseDatabase.getReference();
     int rootid;
-    private EditText e;
+    WishlistCustomAdapter adapter;
 
     public static int itemid=1;
     private ListView listView;
@@ -46,10 +46,9 @@ public class add_useritem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_item);
-        e=(EditText) findViewById(R.id.edit);
         users=new ArrayList<>();
         rows=new ArrayList<>();
-        WishlistCustomAdapter adapter=new WishlistCustomAdapter(this,cols);
+        adapter=new WishlistCustomAdapter(this,cols);
         listView = (ListView) findViewById(R.id.list);
         additem=(Button) findViewById(R.id.add);
 
@@ -61,12 +60,12 @@ public class add_useritem extends AppCompatActivity {
     additem.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(users !=null){rows.add(users);}
+            if(users !=null){rows.add(users);
             for(rootid=0;rootid<cols.size();rootid++) {
                 root.child(rootid+"").child(rootid +cols.size()*itemid+"").setValue(users.get(rootid +cols.size()*(itemid-1)));
 
             }
-        itemid++;}
+        itemid++;}}
     });
 
 
@@ -96,7 +95,7 @@ public class add_useritem extends AppCompatActivity {
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    e.setText(result.get(0).toCharArray().toString());
+                    adapter.setEdittext(result.get(0).toCharArray().toString());
                 break;
             }
 
