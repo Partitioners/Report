@@ -53,6 +53,7 @@ public class add_useritem extends AppCompatActivity {
         additem=(Button) findViewById(R.id.add);
 
         listView.setAdapter(adapter);
+        final Intent x=new Intent(this,TableLayoutActivity.class);
 
 
 
@@ -60,12 +61,14 @@ public class add_useritem extends AppCompatActivity {
     additem.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(users !=null){rows.add(users);
+            /*if(users !=null){rows.add(users);
             for(rootid=0;rootid<cols.size();rootid++) {
                 root.child(rootid+"").child(rootid +cols.size()*itemid+"").setValue(users.get(rootid +cols.size()*(itemid-1)));
 
             }
-        itemid++;}}
+        itemid++;}*/
+        startActivity(x);}
+
     });
 
 
