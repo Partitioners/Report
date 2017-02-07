@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public EditText t1;
     private Button btnSpeak;
     public static final int REQ_CODE_SPEECH_INPUT = 100;
-public int index=0;
+    public int index=0;
 
     public static FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
     public static DatabaseReference root=firebaseDatabase.getReference();
@@ -55,7 +55,8 @@ public int index=0;
             public void onClick(View view) {
 
                 cols.add(t1.getText().toString());
-                root.child((index-1)+"").setValue(t1.getText().toString());
+                root.child(index+"").setValue(t1.getText().toString());
+                index++;
                 t1.setText("");
 
 

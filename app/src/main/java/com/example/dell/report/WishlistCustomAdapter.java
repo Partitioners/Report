@@ -34,7 +34,7 @@ public class WishlistCustomAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
@@ -48,13 +48,14 @@ public class WishlistCustomAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 context.promptSpeechInput();
-                if(name.getText()!=null){
-                    add_useritem.users.add(name.getText().toString());
-
-                }
 
             }
         });
+        if(name.getText()!=null){
+            add_useritem.users.add(position,name.getText().toString());
+
+        }
+
 
 
         return listItemView;

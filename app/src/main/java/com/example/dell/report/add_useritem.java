@@ -61,12 +61,8 @@ public class add_useritem extends AppCompatActivity {
     additem.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            /*if(users !=null){rows.add(users);
-            for(rootid=0;rootid<cols.size();rootid++) {
-                root.child(rootid+"").child(rootid +cols.size()*itemid+"").setValue(users.get(rootid +cols.size()*(itemid-1)));
-
+            if(users.size()==rows.size() && users.size()!=0){rows.add(users);
             }
-        itemid++;}*/
         startActivity(x);}
 
     });
@@ -98,7 +94,7 @@ public class add_useritem extends AppCompatActivity {
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    adapter.setEdittext(result.get(0).toCharArray().toString());
+                    adapter.setEdittext(result.get(0));
                 break;
             }
 
