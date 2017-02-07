@@ -52,12 +52,10 @@ public class WishlistCustomAdapter extends ArrayAdapter<String> {
             }
         });
         if(name.getText()!=null){
+
             add_useritem.users.add(position,name.getText().toString());
 
         }
-
-
-
         return listItemView;
     }
     public void setEdittext(String s){

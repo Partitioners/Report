@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,15 +15,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static com.example.dell.report.MainActivity.REQ_CODE_SPEECH_INPUT;
 import static com.example.dell.report.MainActivity.cols;
+import static com.example.dell.report.MainActivity.is;
 import static com.example.dell.report.MainActivity.root;
+import static com.example.dell.report.MainActivity.rootid;
 
 /**
  * Created by DELL on 04-02-2017.
@@ -30,17 +38,21 @@ import static com.example.dell.report.MainActivity.root;
 
 public class add_useritem extends AppCompatActivity {
 
-    public static ArrayList<String> users;
 
+   // public ArrayList<EditText> et;
+    public static ArrayList<String> users;
+    //public static ArrayList<String> users1;
+    public EditText tv;
 
     public Button additem;
     public static ArrayList<ArrayList> rows;
-    public FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-    private DatabaseReference root=firebaseDatabase.getReference();
-    int rootid;
-    WishlistCustomAdapter adapter;
+    public FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference root;
 
-    public static int itemid=1;
+    //int pressed=0;
+    //public static int itemid = 1;
+    //public static int ind = 0;
+    WishlistCustomAdapter adapter;
     private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +63,46 @@ public class add_useritem extends AppCompatActivity {
         adapter=new WishlistCustomAdapter(this,cols);
         listView = (ListView) findViewById(R.id.list);
         additem=(Button) findViewById(R.id.add);
-
         listView.setAdapter(adapter);
-        final Intent x=new Intent(this,TableLayoutActivity.class);
+
+        additem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("value","size of users is "+users.size());
 
 
 
+/*if(is>1){
+        //Log.e("check size", "itemid at" + itemid + " cols at " + cols.size());
+                root = firebaseDatabase.getReference("rows");
+                    root.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            long count = 0;
+                            for (Arraylist colName:rows) {
+                                root.child(String.valueOf(count++)).setValue(colName);
+                            }
 
-    additem.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if(users.size()==rows.size() && users.size()!=0){rows.add(users);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });}*/
+
+
+                root = firebaseDatabase.getReference("rows");
+                root.child(rootid + "").setValue(users);
+                rootid++;
+                retrieve();
+                startActivity(new Intent(add_useritem.this,TableLayoutActivity.class));
+
             }
-        startActivity(x);}
+
+
 
     });
-
-
     }
 
     public void promptSpeechInput() {
@@ -83,6 +118,30 @@ public class add_useritem extends AppCompatActivity {
 
         }
     }
+
+private void retrieve()
+    { FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+
+        final DatabaseReference root1=firebaseDatabase.getReference().child("rows");
+        root1.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> getChildren=dataSnapshot.getChildren();
+                GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+                for(DataSnapshot child:getChildren)
+                {rows.add((ArrayList<String>)child.getValue(t));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }});
+
+
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
